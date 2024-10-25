@@ -11,7 +11,7 @@ describe('EntityForm.vue', () => {
     published_from: '2023-10-01',
   };
 
-  it('renders form correctly when entity is provided', () => {
+  it('renders form correctly when entity is provided', async() => {
     const wrapper = mount(EntityForm, {
       props: {
         initialEntity: mockEntity,
@@ -19,10 +19,17 @@ describe('EntityForm.vue', () => {
       },
     });
 
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.find('input[type="text"]').exists()).toBe(true);
     expect(wrapper.find('textarea').exists()).toBe(true);
     expect(wrapper.find('input[type="checkbox"]').exists()).toBe(true);
     expect(wrapper.find('input[type="date"]').exists()).toBe(true);
+
+    await wrapper.find('input[type="text"]').setValue(mockEntity.title);
+    await wrapper.find('textarea').setValue(mockEntity.description);
+    await wrapper.find('input[type="checkbox"]').setValue(mockEntity.published);
+    await wrapper.find('input[type="date"]').setValue(mockEntity.published_from);
 
     const titleInput = wrapper.find('input[type="text"]').element as HTMLInputElement;
     expect(titleInput.value).toBe(mockEntity.title);
