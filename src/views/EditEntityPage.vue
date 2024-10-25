@@ -17,11 +17,19 @@ import { api } from "@/api";
 const store = useEntityStore();
 const route = useRoute();
 const router = useRouter();
+
 const entity = computed(() => {
   return store.editEntities;
 });
 
-const saveEditEntity = async (entity:Entity) => {
+onMounted(async () => {
+  const entityId = route.params.id ? route.params.id.toString() : null;
+  if (entityId) {
+    await store.getEntity(entityId);
+  }
+});
+
+const saveEditEntity = async (entity: Entity) => {
   try {
     let response;
     if (entity.id === 0) {
@@ -39,10 +47,4 @@ const saveEditEntity = async (entity:Entity) => {
     console.error("Ошибка при отправке данных:", error);
   }
 };
-
-onMounted(async() => {
-  if (!store.editEntities) {
-    await store.getEntity(route.params.id.toString());
-  }
-});
 </script>

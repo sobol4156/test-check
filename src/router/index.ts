@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import EntityListPage from '@/views/EntityListPage.vue';
-import EntityCreate from '@/views/EntityCreate.vue';
-import EntityEdit from '@/views/EntityEdit.vue';
+import EntityCreate from '@/views/CreateEntityPage.vue';
+import EntityEdit from '@/views/EditEntityPage.vue';
 
 const routes = [
   { path: '/', component: EntityListPage },

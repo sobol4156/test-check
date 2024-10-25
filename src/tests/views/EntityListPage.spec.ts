@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import EntityListPage from '@/views/EntityListPage.vue';
-import EntityCreate from '@/views/EntityCreate.vue';
+import EntityCreate from '@/views/CreateEntityPage.vue';
 import EntityList from '@/components/EntityList.vue';
 import { describe, it, expect, vi } from 'vitest';
 import { createRouter, createWebHistory } from 'vue-router';
