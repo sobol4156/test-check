@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="filterText" placeholder="Filter by title" />
+    <input @model="filterText" placeholder="Filter by title" />
     <ul v-if="store.entities && store.entities.length">
       <li v-for="entity in filteredEntities" :key="entity.id">
         {{ entity.title }} ({{ entity.published ? 'Published' : 'Unpublished' }})
