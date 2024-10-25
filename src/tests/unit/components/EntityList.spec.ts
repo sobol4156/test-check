@@ -33,8 +33,8 @@ describe('EntityList.vue', () => {
 
     const items = wrapper.findAll('li');
     expect(items.length).toBe(2);
-    expect(items[0].text()).toContain('Test En1 (Published)')
-    expect(items[1].text()).toContain('En2 Test (Unpublished)');
+    expect(items[0].text()).toContain('Test En1Published Edit  Delete')
+    expect(items[1].text()).toContain('En2 TestUnpublished Edit  Delete');
   })
 
   it('filters entities by title', async () => {

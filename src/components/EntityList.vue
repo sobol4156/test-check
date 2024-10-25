@@ -36,13 +36,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useEntityStore } from "@/store/entityStore";
 import { useRouter } from "vue-router";
 
 const store = useEntityStore();
 const router = useRouter();
 const filterText = ref("");
+
+onMounted(async () => {
+  if (!store.entities.length) {
+    await store.getEntities();
+  }
+});
 
 const filteredEntities = computed(() => {
   return store.entities.filter((entity) =>
