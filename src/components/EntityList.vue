@@ -39,6 +39,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useEntityStore } from "@/store/entityStore";
 import { useRouter } from "vue-router";
+import { api } from "@/api";
 
 const store = useEntityStore();
 const router = useRouter();
@@ -60,9 +61,20 @@ const editEntity = (id: number) => {
   router.push(`/edit/${id}`);
 };
 
-const confirmDelete = (id: number) => {
+const confirmDelete = async (id: number) => {
   if (confirm("Are you sure you want to delete this entity?")) {
-    store.deleteEntity(id);
+    try {
+      let response;
+
+      response = await api.delete(`/entityList/${id}`);
+
+      if (response.status === 201 || response.status === 200) {
+        store.deleteEntity(id);
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Ошибка при отправке данных:", error);
+    }
   }
 };
 </script>

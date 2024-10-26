@@ -27,13 +27,17 @@ const newEntity: Entity = {
   published_from: null,
 };
 
+const addToStore = (entity: Entity) => {
+  store.addEntity(entity);
+}
+
 const createEntity = async(entity: Entity) => {
   try {
     let response;
     response = await api.post("/entityList", entity);
 
     if (response.status === 201 || response.status === 200) {
-      store.addEntity(entity);
+      addToStore(entity)
       router.push("/");
     }
   } catch (error) {

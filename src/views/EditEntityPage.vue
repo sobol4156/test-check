@@ -29,6 +29,10 @@ onMounted(async () => {
   }
 });
 
+const addToStore = (entity: Entity) => {
+  store.addEditEntity(entity);
+}
+
 const saveEditEntity = async (entity: Entity) => {
   try {
     let response;
@@ -39,7 +43,7 @@ const saveEditEntity = async (entity: Entity) => {
     }
 
     if (response.status === 201 || response.status === 200) {
-      store.addEditEntity(entity);
+      addToStore(entity)
       await store.getEntities();
       router.push("/");
     }
