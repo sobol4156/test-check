@@ -9,12 +9,13 @@
       <li
         v-for="entity in filteredEntities"
         :key="entity.id"
-        class="flex justify-between items-center p-2 bg-gray-100 mb-2 rounded"
+        class="flex justify-between items-center p-2 bg-gray-200 mb-2 rounded"
       >
         <div>
           <h2 class="text-lg font-semibold">{{ entity.title }}</h2>
           <p>{{ entity.description }}</p>
           <p>{{ entity.published ? "Published" : "Unpublished" }}</p>
+          <p>{{ entity.published_from }}</p>
         </div>
         <div class="flex space-x-2">
           <button

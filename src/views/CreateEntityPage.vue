@@ -29,7 +29,7 @@ const newEntity: Entity = {
   title: "",
   description: "",
   published: false,
-  published_from: null,
+  published_from: new Date().toISOString().slice(0, 10),
 };
 
 /**
