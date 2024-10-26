@@ -50,18 +50,37 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-
 import type { Entity } from "@/types/Entity";
 
+// Define props with TypeScript types
 const props = defineProps<{
+  /** Initial entity data to populate the form */
   initialEntity: Entity | undefined;
-  create?: Boolean;
+  /** Determines if the form is used for creating a new entity */
+  create?: boolean;
 }>();
-const emiters = defineEmits(["edit", "create"]);
-const entity = ref(props.initialEntity);
 
-const submitForm = async () => {
-  const eventType = props.create ? "create" : "edit";
-  emiters(eventType, entity.value);
+// Define emits with TypeScript types
+const emiters = defineEmits<{
+  (e: "edit", entity: Entity | undefined): void;
+  (e: "create", entity: Entity | undefined): void;
+}>();
+
+// Local ref for entity data, initialized from props
+const entity = ref<Entity | undefined>(props.initialEntity);
+
+/**
+ * Handles form submission and emits either "edit" or "create" event
+ * based on the `create` prop.
+ * @returns {void}
+ */
+const submitForm = (): void => {
+  const eventType: "create" | "edit" = props.create ? "create" : "edit";
+
+  if (eventType === "create") {
+    emiters("create", entity.value);
+  } else {
+    emiters("edit", entity.value);
+  }
 };
 </script>

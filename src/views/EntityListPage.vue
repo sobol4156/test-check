@@ -15,9 +15,15 @@
 import { useRouter } from "vue-router";
 import EntityList from "@/components/EntityList.vue";
 
+// Initialize the router
 const router = useRouter();
 
-const goToCreatePage = () => {
+/**
+ * Navigates to the page for creating a new entity by pushing
+ * the '/create' route to the router.
+ * @returns {void}
+ */
+const goToCreatePage = (): void => {
   router.push("/create");
 };
 </script>

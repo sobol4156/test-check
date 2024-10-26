@@ -40,40 +40,62 @@ import { ref, computed, onMounted } from "vue";
 import { useEntityStore } from "@/store/entityStore";
 import { useRouter } from "vue-router";
 import { api } from "@/api";
+import type { Entity } from "@/types/Entity"; // Assume this defines the structure of an Entity object
 
+// Initialize the store and router
 const store = useEntityStore();
 const router = useRouter();
-const filterText = ref("");
 
-onMounted(async () => {
+// Text for filtering entities by title
+const filterText = ref<string>("");
+
+/**
+ * Fetches entities from the store on component mount if not already loaded.
+ * @returns {Promise<void>}
+ */
+onMounted(async (): Promise<void> => {
   if (!store.entities.length) {
     await store.getEntities();
   }
 });
 
-const filteredEntities = computed(() => {
+/**
+ * Computed property that returns the list of entities filtered by title.
+ * Filters entities based on the input text in a case-insensitive manner.
+ * @returns {Entity[]} Array of entities that match the filter criteria.
+ */
+const filteredEntities = computed((): Entity[] => {
   return store.entities.filter((entity) =>
     entity.title.toLowerCase().includes(filterText.value.toLowerCase())
   );
 });
 
-const editEntity = (id: number) => {
+/**
+ * Navigates to the edit page for a specific entity.
+ * @param {number} id - The ID of the entity to edit.
+ * @returns {void}
+ */
+const editEntity = (id: number): void => {
   router.push(`/edit/${id}`);
 };
 
-const confirmDelete = async (id: number) => {
+/**
+ * Confirms and deletes an entity by ID.
+ * Shows a confirmation dialog, and upon user confirmation, sends a delete request to the API.
+ * @param {number} id - The ID of the entity to delete.
+ * @returns {Promise<void>}
+ */
+const confirmDelete = async (id: number): Promise<void> => {
   if (confirm("Are you sure you want to delete this entity?")) {
     try {
-      let response;
+      const response = await api.delete(`/entityList/${id}`);
 
-      response = await api.delete(`/entityList/${id}`);
-
-      if (response.status === 201 || response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         store.deleteEntity(id);
-        router.push("/");
+        router.push("/"); // Redirect to the main page after deletion
       }
     } catch (error) {
-      console.error("Ошибка при отправке данных:", error);
+      console.error("Error while deleting entity:", error);
     }
   }
 };

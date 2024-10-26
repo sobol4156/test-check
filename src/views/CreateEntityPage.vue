@@ -16,9 +16,14 @@ import EntityForm from "@/components/EntityForm.vue";
 import type { Entity } from "@/types/Entity";
 import { api } from "@/api";
 
+// Initialize the store and router
 const store = useEntityStore();
 const router = useRouter();
 
+/**
+ * Default entity data for a new entity.
+ * @type {Entity}
+ */
 const newEntity: Entity = {
   id: 0,
   title: "",
@@ -27,21 +32,35 @@ const newEntity: Entity = {
   published_from: null,
 };
 
-const addToStore = (entity: Entity) => {
+/**
+ * Adds a new entity to the store by calling the store's `addEntity` method.
+ * @param {Entity} entity - The entity object to be added to the store.
+ * @returns {void}
+ */
+const addToStore = (entity: Entity): void => {
   store.addEntity(entity);
-}
+};
 
-const createEntity = async(entity: Entity) => {
+/**
+ * Creates a new entity by making a POST request to the API.
+ * After successful creation, it adds the entity to the store and redirects to the home page.
+ * @async
+ * @param {Entity | undefined} entity - The entity object with the data to be saved.
+ * @returns {Promise<void>}
+ */
+const createEntity = async (entity?: Entity): Promise<void> => {
+  if (!entity) return;
+
   try {
-    let response;
-    response = await api.post("/entityList", entity);
+    const response = await api.post("/entityList", entity);
 
+    // If the entity was successfully created, add it to the store and redirect
     if (response.status === 201 || response.status === 200) {
-      addToStore(entity)
+      addToStore(entity);
       router.push("/");
     }
   } catch (error) {
-    console.error("Ошибка при отправке данных:", error);
+    console.error("Error submitting data:", error);
   }
 };
 </script>
