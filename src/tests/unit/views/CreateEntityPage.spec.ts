@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils';
 import CreateEntityPage from '@/views/CreateEntityPage.vue';
 import EntityForm from '@/components/EntityForm.vue';
-import { useEntityStore } from '@/store/entityStore';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { describe, it, expect, vi } from 'vitest';
 import { createPinia } from 'pinia';
