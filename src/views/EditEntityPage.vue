@@ -46,7 +46,7 @@ onMounted(async () => {
  * @param {Entity} entity - The entity object to be added or updated in the store.
  * @returns {void}
  */
-const addToStore = (entity: Entity): void => {
+const addEditToStore = (entity: Entity): void => {
   store.addEditEntity(entity);
 };
 
@@ -62,17 +62,12 @@ const saveEditEntity = async (entity?: Entity): Promise<void> => {
   
   try {
     let response;
-    if (entity.id === 0) {
-      // Creates a new entity if the ID is 0
-      response = await api.post<Entity>("/entityList", entity);
-    } else {
       // Updates an existing entity if the ID is not 0
       response = await api.put<Entity>(`/entityList/${entity.id}`, entity);
-    }
 
     // Checks if the request was successful and processes accordingly
     if (response.status === 201 || response.status === 200) {
-      addToStore(entity);
+      addEditToStore(entity);
       await store.getEntities();
       router.push("/");
     }

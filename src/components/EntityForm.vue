@@ -34,6 +34,7 @@
         <input
           v-model="entity.published_from"
           type="date"
+          required
           class="border p-2 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
         />
       </div>
